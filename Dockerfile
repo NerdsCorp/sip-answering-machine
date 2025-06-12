@@ -5,7 +5,14 @@ FROM python:latest
 LABEL Maintainer="nerdscorp"
 
 # Update package lists and install apt packages
-RUN apt-get update && apt-get install -y python3-pip
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libasound2-dev \
+    libsndfile1 \
+    python3-pip \
+    python3-dev \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip to the latest version
 RUN pip3 install --upgrade pip
