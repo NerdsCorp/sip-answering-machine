@@ -24,6 +24,7 @@ RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
     && make install \
     && ldconfig \
     && cd pjsip-apps/src/python \
+    && sed -i 's/\t/    /g' setup.py \
     && python3 setup.py install
 
 WORKDIR /app
