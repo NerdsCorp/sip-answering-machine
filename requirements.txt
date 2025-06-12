@@ -1,0 +1,6 @@
+flask
+pjsua
+requests
+smtplib
+sounddevice
+soundfile
