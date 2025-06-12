@@ -31,7 +31,7 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Copy application files
-COPY app/ /app/app/
+COPY app/ /app/
 COPY config/ /app/config/
 COPY templates/ /app/templates/
 COPY static/ /app/static/
@@ -51,4 +51,4 @@ EXPOSE 8080
 EXPOSE 5060/udp
 
 # Set default command
-CMD ["bash", "run.sh"]
+CMD ["bash", "/app/run.sh"]
