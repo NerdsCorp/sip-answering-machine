@@ -1,38 +1,39 @@
-# Use a modern Python 3 base image
-FROM python:3.9-slim
+# Use a lightweight Debian image
+FROM debian:bookworm-slim
 
-# Install system dependencies for building PJSIP and running the app
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    wget \
-    python3-dev \
-    python3-pip \
-    libasound2-dev \
-    libportaudio2 \
-    libportaudiocpp0 \
-    portaudio19-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Download and build PJSIP with Python 3 bindings
-RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
-    && tar xzf 2.15.1.tar.gz \
-    && cd pjproject-2.15.1 \
-    && ./configure --enable-shared --with-python \
-    && make \
-    && make install \
-    && ldconfig \
-    && cd pjsip-apps/src/python \
-    && expand -t 4 setup.py > setup_fixed.py && mv setup_fixed.py setup.py \
-    && python3 setup.py install
-
-WORKDIR /app
-
-# Copy your application code into the image
-COPY . .
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y baresip python3 python3-pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
+# Set working directory
+WORKDIR /app
+
+# Copy application files
+COPY app/ /app/app/
+COPY config/ /app/config/
+COPY recordings/ /app/recordings/
+COPY templates/ /app/templates/
+COPY static/ /app/static/
+COPY run.sh /app/
+COPY requirements.txt /app/
+
+# Make run.sh executable
+RUN chmod +x /app/run.sh
+
+# Expose Web GUI port
 EXPOSE 8080
 
-CMD ["python3", "app/main.py"]
+# Optionally expose SIP UDP port if needed for external SIP registration
+# EXPOSE 5060/udp
+
+# Set default command
+CMD ["bash", "/app/run.sh"]
