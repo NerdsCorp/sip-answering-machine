@@ -9,3 +9,5 @@ echo "Starting web_gui with Gunicorn..."
 gunicorn app.web_gui:app --bind 0.0.0.0:8000 &
 
 echo "Both services have been started."
+
+wait
