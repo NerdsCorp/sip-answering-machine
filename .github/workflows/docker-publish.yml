@@ -35,7 +35,7 @@ jobs:
             # If it's a push to main branch, use "DEV" as the image tag
             IMAGE_TAG="DEV"
           fi
-          docker build -t ghcr.io/nerdscorp/sip-answering-machine:$IMAGE_TAG .
+          docker build -t ghcr.io/nerdscorp/sip-answering-machine:$IMAGE_TAG
 
       - name: Push Docker Image
         run: |
