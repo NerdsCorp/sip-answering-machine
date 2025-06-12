@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Start the baresip_monitor (make sure main.py only starts baresip_monitor)
+# Start baresip_monitor using module syntax
 echo "Starting baresip_monitor..."
-python3 app/main.py &
+python3 -m app.main &
 
-# Start the web_gui using Gunicorn (adjust module path if necessary)
+# Start the web_gui using Gunicorn
 echo "Starting web_gui with Gunicorn..."
 gunicorn app.web_gui:app --bind 0.0.0.0:8000 &
 
