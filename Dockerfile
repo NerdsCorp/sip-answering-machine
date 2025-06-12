@@ -22,7 +22,7 @@ COPY . .
 # Install dependencies by running pip
 RUN pip install -r requirements.txt
 
-# Expose port 5000 for the application
+# Expose port 8080 for the application
 EXPOSE 8080
 
 # Set the default command to start the Python interpreter
