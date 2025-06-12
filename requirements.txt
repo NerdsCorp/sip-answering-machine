@@ -1,4 +1,3 @@
 flask
 requests
-sounddevice
-soundfile
+smtplib
