@@ -1,5 +1,5 @@
 # Use a lightweight Debian image
-FROM debian:bookworm-slim
+FROM debian:bookworm
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
