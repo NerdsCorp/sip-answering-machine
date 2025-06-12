@@ -1,24 +1,19 @@
-# Use a recent Python image
-FROM python:2.7-slim
+# Use a modern Python 3 base image
+FROM python:3.9-slim
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip wget \
-    && wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
-    && tar xzf 2.15.1.tar.gz \
-    && cd pjproject-2.15.1 \
-    && ./configure --enable-shared --with-python \
-    && make \
-    && make install \
-    && ldconfig \
-    && cd pjsip-apps/src/python \
-    && 2to3 -w setup.py \
-    && sed -i 's/\t/    /g' setup.py \
-    && sed -i '/if len(tokens)>1:/i \        tokens = line.split()' setup.py \
-    && python3 setup.py install
-    
-WORKDIR /usr/src
+# Install system dependencies for building PJSIP and running the app
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    python3-dev \
+    python3-pip \
+    libasound2-dev \
+    libportaudio2 \
+    libportaudiocpp0 \
+    portaudio19-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Download and build PJSIP with Python bindings (pjsua2)
+# Download and build PJSIP with Python 3 bindings
 RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
     && tar xzf 2.15.1.tar.gz \
     && cd pjproject-2.15.1 \
@@ -27,7 +22,6 @@ RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
     && make install \
     && ldconfig \
     && cd pjsip-apps/src/python \
-    && sed -i 's/\t/    /g' setup.py \
     && python3 setup.py install
 
 WORKDIR /app
@@ -36,7 +30,11 @@ WORKDIR /app
 COPY . .
 
 # Install Python dependencies
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
+
+EXPOSE 8080
+
+CMD ["python3", "app/main.py"]
 
 EXPOSE 8080
 
