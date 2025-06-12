@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y python3 python3-pip wget \
     && cd pjsip-apps/src/python \
     && 2to3 -w setup.py \
     && sed -i 's/\t/    /g' setup.py \
+    && sed -i '/if len(tokens)>1:/i \        tokens = line.split()' setup.py \
     && python3 setup.py install
     
 WORKDIR /usr/src
