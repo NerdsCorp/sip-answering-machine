@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y python3 python3-pip wget \
     && ldconfig \
     && cd pjsip-apps/src/python \
     && 2to3 -w setup.py \
+    && sed -i 's/\t/    /g' setup.py \
     && python3 setup.py install
+    
 WORKDIR /usr/src
 
 # Download and build PJSIP with Python bindings (pjsua2)
