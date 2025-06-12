@@ -47,4 +47,4 @@ EXPOSE 8080
 EXPOSE 5060/udp
 
 # Set default command
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
+CMD ["bash", "/app/run.sh"]
