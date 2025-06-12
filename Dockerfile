@@ -22,6 +22,7 @@ RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
     && make install \
     && ldconfig \
     && cd pjsip-apps/src/python \
+    && expand -t 4 setup.py > setup_fixed.py && mv setup_fixed.py setup.py \
     && python3 setup.py install
 
 WORKDIR /app
@@ -35,7 +36,3 @@ RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
 EXPOSE 8080
 
 CMD ["python3", "app/main.py"]
-
-EXPOSE 8080
-
-CMD ["python", "main.py"]
