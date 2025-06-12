@@ -23,7 +23,12 @@ RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.13.tar.gz \
     && make \
     && make install \
     && ldconfig \
+    # Fix tabs to spaces in setup.py
     && sed -i 's/\t/    /g' pjsip-apps/src/python/setup.py \
+    # Fix Python 2 print statements to Python 3 print() function
+    && sed -i "s/print '\\(.*\\)'/print('\\1')/g" pjsip-apps/src/python/setup.py \
+    # Fix any remaining print statements (handles double quotes)
+    && sed -i 's/print "\(.*\)"/print("\1")/g' pjsip-apps/src/python/setup.py \
     && cd pjsip-apps/src/python \
     && python3 setup.py install
 
