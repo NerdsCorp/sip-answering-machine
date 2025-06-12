@@ -20,11 +20,12 @@ WORKDIR /app
 # Copy application files
 COPY app/ /app/app/
 COPY config/ /app/config/
-COPY recordings/ /app/recordings/
 COPY templates/ /app/templates/
 COPY static/ /app/static/
 COPY run.sh /app/
 COPY requirements.txt /app/
+
+RUN mkdir -p /app/recordings/
 
 # Make run.sh executable
 RUN chmod +x /app/run.sh
