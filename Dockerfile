@@ -3,19 +3,32 @@ FROM debian:bookworm-slim
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Install dependencies
+# Install system dependencies (including for venv)
 RUN apt-get update && \
-    apt-get install -y baresip python3 python3-pip && \
+    apt-get install -y baresip python3 python3-pip python3-venv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt /tmp/requirements.txt
-RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
+# Create a virtual environment
+RUN python3 -m venv /opt/venv
+
+# Upgrade pip in the venv
+RUN /opt/venv/bin/pip install --upgrade pip
+
+# Set the PATH so venv is default
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Set working directory
 WORKDIR /app
+
+# Copy requirements first for Docker cache efficiency
+COPY requirements.txt /tmp/requirements.txt
+
+# Install Python dependencies in the venv
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Copy application files
 COPY app/ /app/app/
@@ -25,6 +38,7 @@ COPY static/ /app/static/
 COPY run.sh /app/
 COPY requirements.txt /app/
 
+# Create recordings directory
 RUN mkdir -p /app/recordings/
 
 # Make run.sh executable
