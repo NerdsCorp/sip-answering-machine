@@ -16,9 +16,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src
 
 # Download and build PJSIP with Python bindings (pjsua2)
-RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.13.1.tar.gz \
-    && tar xzf 2.13.1.tar.gz \
-    && cd pjproject-2.13.1 \
+RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
+    && tar xzf 2.15.1.tar.gz \
+    && cd pjproject-2.15.1 \
     && ./configure --enable-shared --with-python \
     && make \
     && make install \
