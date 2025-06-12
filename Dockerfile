@@ -2,16 +2,17 @@
 FROM python:2.7-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3-dev \
-    wget \
-    libasound2-dev \
-    libsndfile1 \
-    git \
-    pkg-config \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3-2to3 \
+    && wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
+    && tar xzf 2.15.1.tar.gz \
+    && cd pjproject-2.15.1 \
+    && ./configure --enable-shared --with-python \
+    && make \
+    && make install \
+    && ldconfig \
+    && cd pjsip-apps/src/python \
+    && 2to3 -w setup.py \
+    && python3 setup.py install
 
 WORKDIR /usr/src
 
