@@ -1,5 +1,4 @@
 flask
-pjsua
 requests
 sounddevice
 soundfile
