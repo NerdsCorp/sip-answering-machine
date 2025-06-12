@@ -2,7 +2,7 @@
 FROM python:2.7-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y python3-2to3 \
+RUN apt-get update && apt-get install -y python3 python3-pip wget \
     && wget https://github.com/pjsip/pjproject/archive/refs/tags/2.15.1.tar.gz \
     && tar xzf 2.15.1.tar.gz \
     && cd pjproject-2.15.1 \
@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y python3-2to3 \
     && cd pjsip-apps/src/python \
     && 2to3 -w setup.py \
     && python3 setup.py install
-
 WORKDIR /usr/src
 
 # Download and build PJSIP with Python bindings (pjsua2)
