@@ -23,6 +23,7 @@ RUN wget https://github.com/pjsip/pjproject/archive/refs/tags/2.13.tar.gz \
     && make \
     && make install \
     && ldconfig \
+    && sed -i 's/\t/    /g' pjsip-apps/src/python/setup.py \
     && cd pjsip-apps/src/python \
     && python3 setup.py install
 
