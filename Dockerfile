@@ -48,7 +48,7 @@ RUN chmod +x /app/run.sh
 EXPOSE 8080
 
 # Optionally expose SIP UDP port if needed for external SIP registration
-# EXPOSE 5060/udp
+EXPOSE 5060/udp
 
 # Set default command
 CMD ["bash", "/app/run.sh"]
