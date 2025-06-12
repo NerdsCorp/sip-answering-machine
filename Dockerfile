@@ -51,4 +51,4 @@ EXPOSE 8080
 EXPOSE 5060/udp
 
 # Set default command
-CMD ["bash", "/app/run.sh"]
+CMD ["bash", "run.sh"]
