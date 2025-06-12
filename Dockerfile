@@ -31,12 +31,8 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Copy application files
-COPY app/ /app/
-COPY config/ /app/config/
-COPY templates/ /app/templates/
-COPY static/ /app/static/
-COPY run.sh /app/
-COPY requirements.txt /app/
+COPY . .
+
 
 # Create recordings directory
 RUN mkdir -p /app/recordings/
