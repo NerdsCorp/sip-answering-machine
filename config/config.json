@@ -1,6 +1,6 @@
 {
-  "sip_domain": "sip.example.com",
   "sip_user": "1000",
+  "sip_domain": "sip.example.com",
   "sip_password": "password",
   "discord_webhook_url": "https://discord.com/api/webhooks/xxx/yyy",
   "email_enabled": false,
@@ -8,5 +8,7 @@
   "email_user": "your@gmail.com",
   "email_pass": "password",
   "email_recipient": "voicemail@recipient.com",
-  "auto_answer_delay": 2
+  "recording_path": "recordings/voicemail.wav",
+  "baresip_config_dir": "config/baresip_config"
 }
+
