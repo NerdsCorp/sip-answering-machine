@@ -3,15 +3,15 @@ import smtplib
 from email.message import EmailMessage
 from app.config_manager import load_config
 
-config = load_config()
-
 def send_to_discord(file_path):
+    config = load_config()
     with open(file_path, 'rb') as f:
         files = {'file': f}
         response = requests.post(config['discord_webhook_url'], files=files)
     print("Discord webhook response:", response.status_code)
 
 def send_email(file_path):
+    config = load_config()
     if not config['email_enabled']:
         return
     msg = EmailMessage()
